@@ -1,2 +1,2 @@
-# fools2018
-TheZZAZZGlitch's April Fools event 2018
+# fools2017
+Front end for TheZZAZZGlitch's April Fools event 2017

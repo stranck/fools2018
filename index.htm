@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<meta charset='utf-8'>
+<title>missingno.sav | TheZZAZZGlitch's April Fools event 2017</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='style.css' type='text/css'>
+<script type='text/javascript' src='script.js'></script>
+<script type='text/javascript' src='password.js'></script>
+
+<div id='header' class='bare-element'>
+    <div id='header_text'>
+        <h1>missingno.sav</h1>
+        <h2>TheZZAZZGlitch's April Fools event 2017</h2>
+    </div>
+</div>
+
+<div class='bare-element section-header'>
+    Will you escape the trap?
+</div>
+
+<div class='bare-element section-content save-dl' id='action_select'>
+    <p><b>The event is now over. Thanks everyone for participating!</b>
+    <br><br>
+    A "results + playthrough" video with all of the submitted messages should get published real soon!<br>
+    Below is the final list of all submissions.
+    <span id='event_timer' style='display:none'><i></i></span></p>
+    <div style='height: 10px'></div>
+    <button class="btn btn-success main-button" onclick='void(window.location="missingno.sav")'>
+        Download the save file and see what you missed
+    </button> &nbsp;
+    <button class="btn btn-primary main-button" onclick='transition("#action_select","#submit_score_first")'>
+        Check your password
+    </button>
+    
+</div>
+
+<div class='bare-element section-content' id='submit_score_first' style='display:none'>
+    <p>Please enter the password you were given after completing the game.</p>
+    <br>
+    <input type='text' class='form-control text-center' placeholder='Password' maxlength='12' id='local_test_pass'>
+    <br>
+    <button type="submit" class="btn btn-primary main-button" onclick='transition("#submit_score_first","#submit_score_loader",checkPassword)'>
+        Submit
+    </button> &nbsp;
+    <button type="submit" class="btn btn-default main-button" onclick='transition("#submit_score_first","#action_select")'>
+        Cancel
+    </button>
+    
+</div>
+
+<div class='bare-element section-content' id='upload_score_form' style='display:none'>
+    <p id='upload_score_form_info'></p>
+    <div id='upload_score_achievements'></div>
+    <br>
+    <button type="submit" class="btn btn-default main-button" onclick='transition("#upload_score_form","#submit_score_first")'>
+        Go back
+    </button>
+</div>
+
+<div class='bare-element section-content' id='upload_score_username_warning' style='display:none'>
+    <span style='color:#800'>
+        The username <span class='chosen-username'></span> was already used to submit a score.<br>
+        If you didn't submit a score yet, your username was most likely taken. In that case, click the Cancel button and choose a different username.
+    </span><br><br>
+    <button type="submit" class="btn btn-success main-button" onclick='transition("#upload_score_username_warning","#upload_score_form")'>
+        I'm <span class='chosen-username'></span>
+    </button> &nbsp; 
+    <button type="submit" class="btn btn-default main-button" onclick='transition("#upload_score_username_warning","#submit_score_first")'>
+        Cancel
+    </button>
+</div>
+
+<div class='bare-element section-content' id='submit_score_loader' style='display:none'>
+    <img src='img/loading.svg' alt='Loading...' class='loader'>
+    <span class='subtitle'>I'm checking for things, please wait...</span>
+</div>
+
+<div class='bare-element section-content' id='upload_score_loader' style='display:none'>
+    <img src='img/loading.svg' alt='Loading...' class='loader'>
+    <span class='subtitle'>Saving your score...</span>
+</div>
+
+<div class='bare-element section-content' id='submit_score_error' style='display:none'>
+    <b>An error occured: </b> <span id='submit_score_error_msg'>Unknown error.</span><br><br>
+    <span class='subtitle'><a href='?' onclick='transition("#submit_score_error","#submit_score_first"); return false'>Try again?</a></span>
+</div>
+
+<div class='bare-element section-content' id='upload_score_error' style='display:none'>
+    <b>An error occured: </b> <span id='upload_score_error_msg'>Unknown error.</span><br><br>
+    <span class='subtitle'><a href='?' onclick='transition("#upload_score_error","#upload_score_form"); return false'>Try again?</a></span>
+</div>
+
+<div class='bare-element section-content' id='upload_score_success' style='display:none'>
+    <b>The score was successfully uploaded!</b><br><br>
+    <button type="submit" class="btn btn-success main-button" onclick='transition("#upload_score_success","#action_select",loadHighscores)'>
+        Yay!
+    </button>
+</div>
+
+<table class='bare-element table table-striped table-bordered table-condensed score-table' id='highscore_table'>
+    <tr>
+        <th>No.</th>
+        <th>Username</th>
+        <th>Score</th>
+        <th>Time</th>
+        <th>Achievements</th>
+    </tr>
+    <tr>
+        <td colspan='5' class='info-cell servicing' id='highscore_loader' style='display:none'>
+            <img src='img/loading.svg' alt='Loading...' class='loader'>
+            <span class='subtitle'>Please wait, now loading all of your awesome scores!</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan='5' class='info-cell servicing' id='highscore_error' style='display:none'>
+            <b>Something went wrong...</b><br><br>
+            <span class='subtitle'><a href='?' onclick='loadHighscores(); return false'>Try again?</a></span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan='5' class='info-cell' id='highscore_noscript'>
+            Please wait, loading components.<br>
+            Try to enable JavaScript if this message stays here for too long.
+        </td>
+    </tr>
+</table>
